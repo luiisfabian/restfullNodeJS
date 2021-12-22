@@ -1,7 +1,29 @@
 {
+  "name": "nodeyefrid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
-  }
+    "express": "^4.17.1",
+    "mongoose": "^6.1.1",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app3.js",
+    "startMongoD": "node app2.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luiisfabian/restfullNodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luiisfabian/restfullNodeJS/issues"
+  },
+  "homepage": "https://github.com/luiisfabian/restfullNodeJS#readme"
 }

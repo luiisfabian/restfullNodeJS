@@ -2,142 +2,92 @@ var express = require('express');
 var app = express();
 const router = express.Router();
 const http = require('http');
+const { v4: uuidv4 } = require('uuid');
+
+// var bodyParser = require('body-parser');
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded());
+
 
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
 
-let usersList = {
-    1:{ id: 1, name: "luis Fabian", email: "luiisfabian967@gmai.com" },
-    2:{ id: 2, name: "Yefrid David", email: "YEfrid@gmail.com" },
-    3:{ id: 3, name: "Javier Muñoz", email: "javier@34.com" },
-    4:{ id: 4, name: "Lucia Ortiz", email: "Casa@casa.com" },
-}
+let usersList = [
+    { id: "e233936e-33c1-4231-a083-00ff7a84ff31", name: "luis Fabian", email: "luiisfabian967@gmai.com" },
+    { id: "75395834-5abd-11ec-bf63-0242ac130002", name: "Yefrid David", email: "YEfrid@gmail.com" },
+    { id: "7c20e1da-5abd-11ec-bf63-0242ac130002", name: "Javier Muñoz", email: "javier@34.com" },
+    { id: "8262e11a-5abd-11ec-bf63-0242ac130002", name: "Lucia Ortiz", email: "Casa@casa.com" }
+]
 
 
 // var users = [];
 
 app.get('/', function (req, res) {
-
-    res.send("Hello World");
+    res.json(usersList);
+    // res.send("Hello World");
 });
 
-app.post('/', function (req, res) {
-    res.send("this is post Method");
-});
+app.get('/:id', (req, res) => {
+    let id = req.params.id;
+    let result = {};
 
-app.put('/', function (req, res) {
-    res.send("this is put method");
-})
-
-app.delete('/', function(req, res){
-    res.send("this is delete method");
-})
-
-app.get('/users', function (req, res) {
-
-    res.send("Get all users");
-
-//   return  res.send(Object.values.values(usersList))
-});
-
-app.get('/users/:id', function (req, res) {
-
-    return res.send("get one user")
-//   res.send(usersList[req.params.id]);
-    // let found = usersList.find((user) => {
-    //     return user.id === parseInt(req.params.id);
+    // console.log(req.params);
+    // result = usersList.find(function (currentItem) {
+    //   return  currentItem.id === id;
     // });
 
-    // if (found) {
-    //     res.send(found)
-    // } else {
-    //     res.send("no encontradp");
-    // }
-});
+    result = usersList.find(currentItem => currentItem.id == id);
 
-app.post('/users/', function(req, res){
-    console.log("Wur g");
-    let otherUser = {
-        id:5,
-        name: "numero 5",
-        email: "numero5@go.com"   
-    }
+    res.json(result);
 
-    usersList[6] = otherUser
-    return res.send(otherUser)
-});
-
-app.put('/users/:id', function (req, res) {
-    console.log("Que gonorrea");
-    res.send('Updated one user '+ req.params.id);
 })
 
-// app.post('/users', function (req, res) {
-//     res.send("imprimio");
-//     //  let miapp = req.bod
-//     response = {
-//         name: req.body.name,
-//         email: req.body.email
-//     };
-//     console.log(response);
-//     res.send(response);
-
-// });
 
 
+app.post('/', function (req, res) {
 
-app.delete('/users/:id', function (req, res) {
-    console.log("El eliminar 1");
-    res.send("delete user  id" + req.params.id);
+    let formData = req.body;
+    formData.id = uuidv4();
+
+    // console.log(req.body);
+    // res.json(formData);
+    usersList.push(formData);
+    console.log(usersList);
+    res.json({ resp: formData });
+
 });
 
-app.delete('/users', function (req, res) {
-    res.send("DElete all users")
-});
+app.put('/:id', function (req, res) {
+    let id = req.params.id;
+    let formData = { id, ...req.body };
+    // formData.id = id;
+    let result = {}
 
-// app.post('/users', function (req, res) {
+    let index = usersList.findIndex(currentItem => currentItem.id === id)
+    usersList[index] = formData;
+    res.json(formData)
+    console.log(usersList);
+    // usersList[result].push(formData);
 
-//     console.log("gonorrea entro aqui")
-//     let id = req.body.id;
-//     let name = req.body.name;
-//     let email = req.body.email;
+})
 
-//     try {
-//         usersList.create({
-//             id = id,
-//             name = name,
-//             email = email
+app.delete('/:id', function (req, res) {
+    let id = req.params.id;
+    
 
-//         });
-//         res.send("Creado");
-//     } catch (error) {
-//         res.send("error al crear")
-//     }
+    let index = usersList.findIndex(currentItem => currentItem.id  === id)
+    console.log(index);
+    if (index !== -1) usersList.splice(index, 1);
+    console.log(usersList);
+})
 
-//     // users.push(user);
+app.delete('/', function (req, res) {
 
-//     console.log(user);
-// });
-
-
-
-// app.post('/users', function(req, res){
-//     res.send(users);
-//     res.send("created Users")
-// });
-
-// app.post('/users'), function (req, res) {
-//     users = {
-//         "id": 1,
-//         "name": "Pepito",
-//         "mail": "numero1@gmail.com"
-//     }
-
-//     res.send(users)
-// };
-
+    usersList = [];
+    console.log(usersList);
+})
 
 
 
