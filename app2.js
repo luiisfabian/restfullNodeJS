@@ -33,3 +33,6 @@ app.post('/', function(req, res) {
     console.log("");
 });
 
+app.listen(3000, function () {
+    console.log("Listen port 3000 Node Js");
+});
